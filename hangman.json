@@ -1,0 +1,72 @@
+{
+  "Code Lang": [
+    "Python",
+    "JavaScript",
+    "Flutter",
+    "Java",
+    "Go",
+    "Rust",
+    "Swift",
+    "Kotlin"
+  ],
+  "Animal": [
+    "lion",
+    "zebra",
+    "cat",
+    "dog",
+    "elephant",
+    "giraffe",
+    "tiger",
+    "panda"
+  ],
+  "Country": [
+    "Algeria",
+    "France",
+    "Japan",
+    "Brazil",
+    "Germany",
+    "Canada",
+    "Egypt",
+    "India"
+  ],
+  "Sport": [
+    "football",
+    "basketball",
+    "tennis",
+    "boxing",
+    "judo",
+    "karate",
+    "swimming",
+    "cycling"
+  ],
+  "Fruit": [
+    "apple",
+    "banana",
+    "orange",
+    "grape",
+    "mango",
+    "strawberry",
+    "pineapple",
+    "watermelon"
+  ],
+  "Planet": [
+    "Earth",
+    "Saturn",
+    "neptune",
+    "mars",
+    "Mercury",
+    "Venus",
+    "Jupiter",
+    "Uranus"
+  ],
+  "Surah": [
+    "An Najm",
+    "Muhammed",
+    "Ghafir",
+    "Al Baqarah",
+    "Al Anfal",
+    "Al Kahf",
+    "Al Fatiha",
+    "Fatir"
+  ]
+}
