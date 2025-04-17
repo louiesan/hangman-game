@@ -25,11 +25,11 @@
         <h1>Hangman</h1>
       </div>
       <hr />
-      <div class="hint-sentece">
-        <h2>Guess : <span id="hint">Animal</span></h2>
-      </div>
-      <div class="section">
+      <div class="inside-game">
         <div class="hangman-draw">
+          <h2 class="high-score">
+            You're High-Level:<span id="high-level">0</span>
+          </h2>
           <div class="draw">
             <div class="stand"></div>
             <div class="hang"></div>
@@ -42,9 +42,25 @@
             <div class="right-legs"></div>
           </div>
         </div>
-        <div class="keywords"></div>
+        <div class="section">
+          <div class="chAndhi">
+            <div class="chances">
+              <h2>Chances : <span id="chances" class="safe">8</span></h2>
+            </div>
+            <div class="hint-sentece">
+              <h2>Guess : <span id="hint">Animal</span></h2>
+            </div>
+          </div>
+          <div class="keywords"></div>
+        </div>
       </div>
       <div class="words-display"></div>
+    </div>
+    <div id="level-max" class="none">
+      <h3 id="congratulation">Congratulations🎉</h3>
+      <p id="pforend">You reached the max Level!</p>
+      <button id="Restart">Restart</button>
+      <p id="res-note">Restarting game will reset your high level to 0!</p>
     </div>
     <audio src="sound/start.mp4" type="audio/ogg" id="startsound"></audio>
     <audio src="sound/correc-btn.wav" type="audio/wav" id="correct"></audio>

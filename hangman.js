@@ -6,6 +6,8 @@ let alphabet = "abcdefghijklmnopqrstuvwxyz";
 
 let AllKeyWords = Array.from(alphabet);
 
+const levelSection = document.getElementById("high-level");
+
 // Creating the KeyWords inside the html :
 
 AllKeyWords.forEach((word) => {
@@ -16,13 +18,31 @@ AllKeyWords.forEach((word) => {
   newDiv.classList.add("word");
 });
 
+const Chances = document.getElementById("chances");
+let level = [];
+let highestLevel = 0;
+
+if (
+  window.localStorage.getItem("highLevel") ||
+  window.localStorage.getItem("highestLevel")
+) {
+  level = JSON.parse(window.localStorage.getItem("highLevel"));
+  highestLevel = Number(window.localStorage.getItem("highestLevel"));
+}
 // fetching the guessing word :
 let fetchingKeys;
 
 fetch("./hangman.json")
   .then((response) => response.json())
   .then((data) => {
+    setTimeout(() => {
+      if (level.length >= 10) {
+        levelMax();
+      } else {
+      }
+    }, 100);
     let mistake = 0;
+
     fetchingKeys = Object.keys(data);
     // setting random number for the key words subject :
     let randomSubjectNumber = Math.floor(Math.random() * fetchingKeys.length);
@@ -36,10 +56,49 @@ fetch("./hangman.json")
     );
     // setting guessing word :
     let guessingWord = randomSubjectArray[randomGuessNumber];
+
+    let confirmArray = [];
+    for (let i = 0; i < fetchingKeys.length; i++) {
+      for (let j = 0; j < data[fetchingKeys[i]].length; j++) {
+        confirmArray.push(data[fetchingKeys[i]][j]);
+      }
+    }
+    console.log(confirmArray);
+    console.log(level.length);
+
+    function newWordd() {
+      let found = false;
+      if (level.includes(guessingWord)) {
+        for (let j = 0; j < randomSubject.length; j++) {
+          randomSubject = fetchingKeys[j];
+          for (let i = 0; i < randomSubjectArray.length; i++) {
+            guessingWord = randomSubjectArray[i];
+            if (level.includes(guessingWord)) {
+              found = false;
+              continue;
+            } else {
+              found = true;
+              break;
+            }
+          }
+          if (found) {
+            break;
+          } else {
+            continue;
+          }
+        }
+      }
+    }
+    newWordd();
+    levelSection.innerText = highestLevel;
     document.getElementById("hint").innerHTML = randomSubject;
+    console.log(fetchingKeys);
+    console.log(fetchingKeys.length);
+
+    let wordArr;
 
     //setting the display-word for the guessing word :
-    let wordArr = Array.from(guessingWord);
+    wordArr = Array.from(guessingWord);
     wordArr.forEach((word) => {
       let div = document.createElement("span");
       document.querySelector(".words-display").appendChild(div);
@@ -48,6 +107,7 @@ fetch("./hangman.json")
       }
       div.classList.add("word-box");
     });
+
     // setting the keyboard :
     let keyboard = document.querySelectorAll(".word");
     keyboard.forEach((key) => {
@@ -70,6 +130,7 @@ fetch("./hangman.json")
         });
         if (!status) {
           mistake++;
+          Chances.innerHTML = 8 - mistake;
           document.querySelector(".draw").classList.add(`mistaken-${mistake}`);
           document.getElementById("wrong").load();
           document.getElementById("wrong").play();
@@ -80,22 +141,30 @@ fetch("./hangman.json")
           } else if (mistake > 1 && mistake <= 7) {
             document.getElementById("wosh").load();
             document.getElementById("wosh").play();
+            if (Chances.innerHTML >= 3 && Chances.innerHTML <= 6) {
+              Chances.classList.remove("safe");
+              Chances.classList.add("careFul");
+            } else {
+              Chances.classList.remove("careFul");
+              Chances.classList.add("in-danger");
+            }
           }
           if (mistake === 8) {
             loss(guessingWord);
           }
         } else {
-          win(mistake);
+          win(mistake, guessingWord, confirmArray);
         }
       });
     });
     keyboard;
+    console.log(level);
   })
   .catch((error) => {
     console.error("Error:", error);
   });
 
-function win(Condition) {
+function win(Condition, guessingWord, confirmArray) {
   let behavior = 0;
   let condition = false;
   let comparedWord = document.querySelectorAll(".word-box");
@@ -135,17 +204,20 @@ function win(Condition) {
     div.appendChild(h4);
     div.appendChild(h2);
     div.appendChild(button);
-    button.textContent = "Play Again!";
+    button.textContent = "Next Level";
     document.body.appendChild(div);
     document.querySelector(".game-container").classList.add("blur");
     document.getElementById("won").play();
+    highestLevel++;
     let btn = document.querySelector("#play-again");
     btn.addEventListener("click", () => {
+      level.push(guessingWord);
+      window.localStorage.setItem("highLevel", JSON.stringify(level));
+      window.localStorage.setItem("highestLevel", highestLevel);
       window.location.reload();
     });
   } else {
     behavior = false;
-    ("not yet");
   }
 }
 
@@ -168,6 +240,21 @@ function loss(TheWord) {
   let btn = document.querySelector("#play-again");
 
   btn.addEventListener("click", () => {
-    window.location.reload();
+    window.localStorage.clear();
+    location.reload();
+  });
+}
+
+function levelMax() {
+  let leveleDone = document.getElementById("level-max");
+  let rest = document.getElementById("Restart");
+  document.getElementById("won").load();
+  document.getElementById("won").play();
+  document.querySelector(".game-container").style.filter = "blur(10px)";
+  leveleDone.classList.remove("none");
+  leveleDone.classList.add("flex");
+  rest.addEventListener("click", () => {
+    window.localStorage.clear();
+    location.reload();
   });
 }
