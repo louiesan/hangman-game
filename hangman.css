@@ -755,6 +755,14 @@ span.space:before {
     border-radius: 15px;
     transform: rotate(-30deg);
   }
+  @keyframes spawn {
+    0% {
+      height: 0%;
+    }
+    100% {
+      height: 55%;
+    }
+  }
 }
 
 div#level-max {
